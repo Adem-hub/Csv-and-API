@@ -28,8 +28,11 @@ class Twitter:
         self.data=Colonne(13)
         self.ListeTrie=Tri(self.data)
         self.Listes_des_Comptes=[]
-        self.Liste_Subs=[]
-        self.Moyenne_Subs=0
+        self.Followers_List=[]
+        self.Following_List=[]
+        self.Average_Followers=0
+        self.Average_Following=0
+
 
     def Comptes(self):
         for i in self.ListeTrie:
@@ -40,17 +43,20 @@ class Twitter:
             self.Listes_des_Comptes.append(compte)
 
 
-    def Nombre_Subs_Moyenne(self):
+    def Subs_And_Followings_Average(self):
         auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
         auth.set_access_token(access_token, access_token_secret)
         api = tweepy.API(auth)
         for i in self.Listes_des_Comptes:
             try:
                 user = api.get_user(i)
-                self.Liste_Subs.append(user.followers_count)
+
+                self.Following_List.append(user.friends_count)
+                self.Followers_List.append(user.followers_count)
             except:
                 pass
-        somme=sum(self.Liste_Subs)
-        self.Moyenne_Subs=round(somme/len(self.Liste_Subs))
+
+        self.Average_Followers = round(sum(self.Followers_List)/len(self.Followers_List))
+        self.Average_Following = round(sum(self.Following_List)/len(self.Following_List))
 
 
